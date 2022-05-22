@@ -1,0 +1,26 @@
+from transformers import BertTokenizer, TFBertModel
+
+#The tokenizer is responsible for all the preprocessing the pretrained model expects
+#The tokenizer takes care of splitting the sequence into tokens available in the tokenizer vocabulary.
+tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
+
+#Model, a TensorFlow tf.keras.Model
+model = TFBertModel.from_pretrained("bert-base-uncased")
+
+#Input sequence
+text = "Paris is capital of France"
+
+#Return tokens, which are either words or subwords from model vocabulary.
+tokenized_sequence = tokenizer.tokenize(text)
+print(tokenized_sequence)
+
+#Sequence to tokens and then convert into IDs
+#The tokenizer returns a dictionary with all the arguments necessary for its corresponding model to work properly. 
+encoded_input = tokenizer(text,return_tensors='tf')
+print(encoded_input["input_ids"][0])
+
+#Decoding
+decoded_input = tokenizer.decode(encoded_input["input_ids"][0])
+print(decoded_input)
+
+output = model(encoded_input)
