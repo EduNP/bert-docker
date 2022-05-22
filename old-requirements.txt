@@ -1,6 +1,0 @@
-tensorflow_hub
-numpy
-sklearn
-pandas
-bert-tensorflow
-tensorflow.contrib
