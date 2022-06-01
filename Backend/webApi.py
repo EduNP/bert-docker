@@ -5,7 +5,6 @@ from bertMasked import *
 
 app = Flask(__name__)
 
-
 @app.route('/bertMasked/<text>')
 def masked(text):
     inputText = escape(text)
