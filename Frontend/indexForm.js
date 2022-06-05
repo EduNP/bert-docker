@@ -11,7 +11,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //Form para mascara bert
 function fetchData(text) {
 
-    var response = fetch("http://127.0.0.1/bertMasked/" + text);
+    var response = fetch("http://localhost/bertMasked?inputText" + text);
     if (response !== 200) {
         alert("Erro: Response Status != 200");
         return null;

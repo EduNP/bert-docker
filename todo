@@ -2,4 +2,4 @@
 #criar volume para modelos
 #gunicorn para server
 
-##react: apt npm, nodejs
+##react: apt npm, nodejs;;; npx babel --watch src --out-dir . --presets react-app/prod
