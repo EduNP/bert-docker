@@ -4,7 +4,7 @@ import json
 from bertMasked import *
 
 app = Flask(__name__)
-
+##?var=value
 @app.route('/bertMasked/<text>')
 def masked(text):
     inputText = escape(text)

@@ -6,33 +6,59 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+//NÃO PRONTO PARA PRODUÇÃO!
 //script em js utilizando synstatic sugar jsx, convertido pelo babel apra javascript.
-var Form = function (_React$Component) {
-    _inherits(Form, _React$Component);
+//Form para mascara bert
+function fetchData(text) {
 
-    function Form() {
-        _classCallCheck(this, Form);
+    var response = fetch("http://127.0.0.1/bertMasked/" + text);
+    if (response !== 200) {
+        alert("Erro: Response Status != 200");
+        return null;
+    }
+    console.log(response);
+    return response;
+}
 
-        return _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).apply(this, arguments));
+var MaskForm = function (_React$Component) {
+    _inherits(MaskForm, _React$Component);
+
+    function MaskForm(props) {
+        _classCallCheck(this, MaskForm);
+
+        var _this = _possibleConstructorReturn(this, (MaskForm.__proto__ || Object.getPrototypeOf(MaskForm)).call(this, props));
+
+        _this.state = { inputText: 'The capital of France is [MASK].' };
+
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
     }
 
-    _createClass(Form, [{
+    _createClass(MaskForm, [{
+        key: "handleChange",
+        value: function handleChange(event) {
+            this.setState({ inputText: event.target.value });
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(event) {
+            event.preventDefault();
+            fetchData(this.state.inputText);
+        }
+    }, {
         key: "render",
         value: function render() {
             return React.createElement(
-                "div",
-                null,
-                React.createElement("input", { type: "text" }),
-                React.createElement(
-                    "button",
-                    { onClick: "" },
-                    "Rodar"
-                )
+                "form",
+                { onSubmit: this.handleSubmit },
+                React.createElement("input", { type: "text", value: this.state.inputText, onChange: this.handleChange }),
+                React.createElement("input", { type: "submit", value: "Rodar" })
             );
         }
     }]);
 
-    return Form;
+    return MaskForm;
 }(React.Component);
 
 function App() {
@@ -42,9 +68,9 @@ function App() {
         React.createElement(
             "h1",
             null,
-            "Bert para predizer palavras"
+            "M\xE1scara Bert"
         ),
-        React.createElement(Form, null)
+        React.createElement(MaskForm, null)
     );
 }
 
