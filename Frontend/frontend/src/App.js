@@ -1,57 +1,77 @@
 //NÃO PRONTO PARA PRODUÇÃO!
-//script em js utilizando synstatic sugar jsx, convertido pelo babel apra javascript.
 //Form para mascara bert
 import React from 'react';
 import "./App.css"
-import axios from 'axios';
-
-
-/*function fetchData(text){
-  axios.get("http://127.0.0.1:8080/bertMasked?inputText="+ text)
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-}*/
 
 function fetchData(text){
-    let response = fetch("http://127.0.0.1:8080/bertMasked?inputText="+ text);
-    /*if (response.status !== 200)
-    {
-        alert("Erro: Response Status != 200");
-        return null;
-    }*/
-    console.log(response);
-    return response;
+    return fetch("http://127.0.0.1:8080/bertMasked?inputText="+ text)
+    .then(function(response){
+      if(response.ok){
+        //recebe a resposta, divide os dados em
+        let responseType = response.headers.get("content-type");
+        if(responseType && responseType.indexOf("application/json") !== 1){
+          return response.json().then(function(json){
+            return json;
+          });
+        }
+
+      }else{
+        console.log("Ocorreu um erro.")
+      }
+    })
+    .catch(function(error){
+      console.log("Ocorreu um erro na operacao fetch: " + error.message);
+    });
 }
 
 class MaskForm extends React.Component{
   constructor(props){
       super(props);
-      this.state = {inputText: 'The capital of France is [MASK].'}
+      this.state = {inputText: 'Capital do Brasil é [MASK].', result: null, loading: false}
       
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event){
-      this.setState({inputText: event.target.value})
+      this.setState({inputText: event.target.value});
+      
   }
 
   handleSubmit(event){
-      event.preventDefault()
-      let result = fetchData(this.state.inputText);
-      console.log(result)
+      event.preventDefault();
+      this.setState({loading: true});
+      fetchData(this.state.inputText).then(response => this.setState({result: response, loading:false}));
   }
 
   render(){
+      let displayResponse;
+      if(this.state.result != null){
+        displayResponse = <div>{this.state.result.input}
+          <br/>1 {this.state.result.prediction[0]}
+          <br/>2 {this.state.result.prediction[1]}
+          <br/>3 {this.state.result.prediction[2]}
+          <br/>4 {this.state.result.prediction[3]}
+          <br/>5 {this.state.result.prediction[4]}
+          {this.state.result.error}</div>;
+      }
+      
+      let loadingBar;
+      if(this.state.loading === true){
+        loadingBar = <h2>CARREGANDO...</h2>
+      }else{
+        loadingBar = "";
+      }
+
       return (
+        <div>
           <form onSubmit={this.handleSubmit}>
               <input type="text" value={this.state.inputText} onChange={this.handleChange}></input>
               <input type="submit" value="Pesquisar"/>
           </form>
+          {loadingBar}
+          <h3>{displayResponse}</h3>
+        </div>
       );
   }
 }

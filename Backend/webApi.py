@@ -33,7 +33,8 @@ def masked():
 
 def responseFunc(result):
     response = make_response(result)
-    response.headers["Access-Control-Allow-Origin"] = "*"
+    #trocar para endereço do react server
+    response.headers["Access-Control-Allow-Origin"] = "http://127.0.0.1:3000"
     return response
     
 

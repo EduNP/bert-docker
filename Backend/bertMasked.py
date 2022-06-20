@@ -7,9 +7,11 @@ import tensorflow as tf
 def predictToken(text,k):
     #The tokenizer is responsible for all the preprocessing the pretrained model expects
     #The tokenizer takes care of splitting the sequence into tokens available in the tokenizer vocabulary.
-    tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
+    #tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
+    tokenizer = BertTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
     #Model, a TensorFlow tf.keras.Model
-    model = TFBertForMaskedLM.from_pretrained("bert-base-cased")
+    #model = TFBertForMaskedLM.from_pretrained("bert-base-cased")
+    model = TFBertForMaskedLM.from_pretrained("neuralmind/bert-base-portuguese-cased")
 
     #Text to tokens and then convert into IDs
     encoded_input = tokenizer(text,return_tensors='tf')
@@ -24,7 +26,10 @@ def predictToken(text,k):
 
     predictions = []
     for i in range(0,k):
-        predictions.append(tokenizer.decode(list_predicted_token_id[1][0][i]))
+        aux = []
+        aux.append(list_predicted_token_id[1][0][i]);
+        predictions.append(tokenizer.decode(aux,clean_up_tokenization_spaces=True))
+        print(f"PREVISÕES: {predictions[i]}   {list_predicted_token_id[1][0]}")
     return predictions
 
 if __name__ == "__main__":
