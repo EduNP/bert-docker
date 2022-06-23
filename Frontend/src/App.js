@@ -4,7 +4,7 @@ import React from 'react';
 import "./App.css"
 
 function fetchData(text){
-    return fetch("http://127.0.0.1:8080/bertMasked?inputText="+ text)
+    return fetch("http://127.0.0.1:5000/bertMasked?inputText="+ text)
     .then(function(response){
       if(response.ok){
         //recebe a resposta, divide os dados em
