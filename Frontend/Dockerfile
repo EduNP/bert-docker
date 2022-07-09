@@ -5,6 +5,7 @@ WORKDIR /app
 
 RUN npm install --production
 RUN npm install -g serve
+
 COPY ./build .
 
 EXPOSE 3000

@@ -6,12 +6,12 @@ import "./App.css"
 function fetchData(text){
     return fetch("http://127.0.0.1:5000/bertMasked?inputText="+ text)
     .then(function(response){
-      if(response.ok){
+      if (response.ok) {
         //recebe a resposta, divide os dados em
-        let responseType = response.headers.get("content-type");
-        if(responseType && responseType.indexOf("application/json") !== 1){
-          return response.json().then(function(json){
-            return json;
+        let responseType = response.headers.get('content-type');
+        if (responseType && responseType.indexOf("application/json") !== 1) {
+            return response.json().then(function(json){
+              return json;
           });
         }
 
@@ -36,8 +36,7 @@ class MaskForm extends React.Component{
   }
 
   handleChange(event){
-      this.setState({inputText: event.target.value});
-      
+      this.setState({inputText: event.target.value});   
   }
 
   handleSubmit(event){
