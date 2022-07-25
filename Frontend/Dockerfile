@@ -1,13 +1,20 @@
-FROM node:12.18.1
-ENV NODE_ENV=production
+FROM node:18.6.0 as base
 
 WORKDIR /app
 
-RUN npm install --production
-RUN npm install -g serve
-
-COPY ./build .
-
 EXPOSE 3000
+COPY package.json package-lock.json ./
+RUN npm install
 
-CMD ["serve"]
+FROM base as development
+
+CMD [ "npm", "start" ]
+
+FROM base as production
+
+RUN npm install -g serve
+COPY public public/
+COPY src src/
+RUN npm run build
+
+CMD ["serve", "/app/build"]

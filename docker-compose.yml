@@ -4,9 +4,12 @@ services:
     build: ./Backend
     ports:
       - 5000:5000
+    image: bert-api-image
   frontend:
-    build: ./Frontend
+    build:
+      context: ./Frontend
+      target: production
     ports:
       - 80:3000
-    links: 
-      - "api:api"
+    image: bert-front-image
+    

@@ -8,9 +8,10 @@ def predictToken(text,k):
     #The tokenizer is responsible for all the preprocessing the pretrained model expects
     #The tokenizer takes care of splitting the sequence into tokens available in the tokenizer vocabulary.
     #tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
-    tokenizer = BertTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
-    #Model, a TensorFlow tf.keras.Model
     #model = TFBertForMaskedLM.from_pretrained("bert-base-cased")
+    
+    #Model, a TensorFlow tf.keras.Model
+    tokenizer = BertTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
     model = TFBertForMaskedLM.from_pretrained("neuralmind/bert-base-portuguese-cased")
 
     #Text to tokens and then convert into IDs
